@@ -1,0 +1,41 @@
+extends ../layout/default.pug
+include ../mixins/button.pug
+
+block content
+  //- Tiêu đề
+  h1(class="animate-fade-up text-[7rem] font-pinyon text-main mb-12 leading-none") Chọn số lượng ảnh in
+
+  //- Khung chứa 2 phần: Ảnh (Trái) và Bộ đếm (Phải)
+  div(class="animate-fade-up delay-100 flex flex-row items-center justify-center gap-32 w-full max-w-6xl")
+    
+    //- BÊN TRÁI: Khung hiển thị ảnh Preview (Giống thiết kế trang Filter)
+    div(class="relative shadow-2xl bg-white p-3 rounded-sm")
+      img(src=finalPhotoUrl alt="Print Preview" class="h-[55vh] w-auto object-contain block")
+      
+    //- BÊN PHẢI: Trình điều khiển số lượng
+    div(class="flex flex-col items-center gap-8")
+      h3(class="text-[4rem] font-pinyon text-main") Số lượng in
+      
+      //- Thanh tăng giảm số lượng
+      div(class="flex flex-row items-center gap-6")
+        //- Nút Trừ
+        button(id="btn-minus" class="w-16 h-16 rounded-full bg-main text-white flex items-center justify-center text-4xl hover:bg-black transition-colors focus:outline-none") -
+        
+        //- Hiển thị số lượng (Khung màu be nhạt)
+        div(class="bg-[#fff8e7] px-16 py-4 rounded-full text-[2.5rem] font-sans font-bold text-main min-w-[150px] text-center shadow-inner")
+          span(id="print-count") 1
+        
+        //- Nút Cộng
+        button(id="btn-plus" class="w-16 h-16 rounded-full bg-main text-white flex items-center justify-center text-4xl hover:bg-black transition-colors focus:outline-none") +
+
+  //- Nhúng script logic với type="module"
+  script(type="module" src="/js/select-printing.js")
+
+block left-action
+  //- Bỏ trống không có nút Quay lại (Khối rỗng giữ chỗ để layout footer không bị lệch)
+  div
+
+block right-action
+  //- Nút Tiếp tục
+  div(class="animate-fade-up delay-200")
+    button(id="btn-finish" class="bg-main text-white px-16 py-3 rounded-[50px] text-[2.5rem] font-pinyon hover:opacity-90 transition-opacity shadow-md") Tiếp tục

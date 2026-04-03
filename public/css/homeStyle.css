@@ -1,0 +1,95 @@
+:root {
+    --color-velvet: #3d1a1a;
+    --color-velvet-light: #7d3c3c;
+    --color-gold: #f3e5ab;
+    --color-gold-glow: rgba(243, 229, 171, 0.8);
+    --font-main: "Playfair Display", serif;
+}
+
+body {
+    background-color: var(--color-velvet);
+    background-image: url("/ui/star-bg.jpg");
+    background-size: cover;
+    background-attachment: fixed;
+    font-family: var(--font-main);
+    color: var(--color-gold);
+    overflow: hidden;
+    margin: 0;
+}
+
+/* Hiệu ứng chữ phát sáng */
+.glow-text {
+    color: var(--color-gold);
+    text-shadow:
+        0 0 15px var(--color-gold-glow),
+        0 0 30px rgba(243, 229, 171, 0.4);
+}
+.font-logo {
+    font-family: "Pinyon Script", cursive;
+    text-transform: none; /* Giữ nguyên kiểu chữ viết tay, không viết hoa toàn bộ */
+    letter-spacing: 2px;
+}
+.tracking-vintage {
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+}
+/* Hiệu ứng đặc biệt cho chữ Pinyon Script để nó trông như đèn neon cổ điển */
+.glow-logo {
+    color: var(--color-gold);
+    text-shadow:
+        0 0 15px var(--color-gold-glow),
+        0 0 30px rgba(243, 229, 171, 0.4);
+}
+/* Component Nút bấm Vintage */
+.btn-vintage {
+    background: linear-gradient(
+        to bottom,
+        var(--color-velvet-light),
+        var(--color-velvet)
+    );
+    border: 1px solid var(--color-gold);
+    color: var(--color-gold);
+
+    border-radius: 30px;
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.5),
+        inset 0 0 10px rgba(243, 229, 171, 0.2);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: center;
+    font-size: 3rem;
+    font-family: "Pinyon Script", cursive;
+    text-transform: none; /* Giữ nguyên kiểu chữ viết tay, không viết hoa toàn bộ */
+    letter-spacing: 2px;
+
+    display: inline-block;
+    cursor: pointer;
+    text-shadow: 0 0 5px #fff;
+    text-decoration: none;
+    padding: 0.25rem 3rem;
+}
+
+.btn-vintage:hover {
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 10px 25px rgba(243, 229, 171, 0.4);
+    filter: brightness(1.1);
+}
+
+.btn-vintage:active {
+    transform: scale(0.98);
+}
+
+/* Hiệu ứng chuyển trang mượt mà */
+.animate-fade-in {
+    animation: fadeIn 1.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}

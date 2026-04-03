@@ -1,0 +1,303 @@
+/* apps/booth/public/css/style.css */
+:root {
+    --color-velvet: #3d1a1a;
+    --color-velvet-light: #7d3c3c;
+    --color-gold: #f3e5ab;
+    --color-gold-glow: rgba(243, 229, 171, 0.8);
+    --font-main: "Playfair Display", serif;
+}
+
+body {
+    background-color: var(--color-velvet);
+    background-size: cover;
+    background-attachment: fixed;
+    font-family: var(--font-main);
+    color: var(--color-gold);
+    overflow: hidden;
+    margin: 0;
+}
+/* HEADER */
+.header-slogan {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: -0.05em; /* Tương đương tracking-tighter */
+    margin-top: 4px;
+    opacity: 0.8;
+    line-height: 1.25;
+}
+/* Nền sao cho toàn bộ body */
+.bg-star-velvet {
+    background: url("/ui/bg.png") no-repeat center center;
+    background-size: cover;
+    background-color: #3d1a1a;
+}
+
+/* Khung đen mờ giữa màn hình để làm nổi bật nội dung */
+.glass-panel {
+    background: rgba(20, 5, 5, 0.75);
+    border: 1px solid rgba(243, 229, 171, 0.2);
+    border-radius: 15px;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.8);
+}
+
+.step-number {
+    color: var(--color-gold);
+    font-weight: bold;
+    font-family: var(--font-main);
+    display: block;
+    margin-bottom: 5px;
+    font-size: 2rem;
+}
+
+/* Hiệu ứng chữ phát sáng */
+.glow-text {
+    color: var(--color-gold);
+    text-shadow:
+        0 0 15px var(--color-gold-glow),
+        0 0 30px rgba(243, 229, 171, 0.4);
+}
+.font-logo {
+    font-family: "Pinyon Script", cursive;
+    text-transform: none; /* Giữ nguyên kiểu chữ viết tay, không viết hoa toàn bộ */
+    letter-spacing: 2px;
+}
+.tracking-vintage {
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+}
+/* Hiệu ứng đặc biệt cho chữ Pinyon Script để nó trông như đèn neon cổ điển */
+.glow-logo {
+    color: var(--color-gold);
+    text-shadow:
+        0 0 15px var(--color-gold-glow),
+        0 0 30px rgba(243, 229, 171, 0.4);
+}
+/* Component Nút bấm Vintage */
+.btn-vintage {
+    white-space: nowrap;
+    width: auto;
+    background: linear-gradient(
+        to bottom,
+        var(--color-velvet-light),
+        var(--color-velvet)
+    );
+    border: 1px solid var(--color-gold);
+    color: var(--color-gold);
+
+    border-radius: 30px;
+    box-shadow:
+        0 4px 15px rgba(0, 0, 0, 0.5),
+        inset 0 0 10px rgba(243, 229, 171, 0.2);
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    text-align: center;
+    font-size: 3rem;
+    font-family: "Pinyon Script", cursive;
+    text-transform: none; /* Giữ nguyên kiểu chữ viết tay, không viết hoa toàn bộ */
+    letter-spacing: 2px;
+
+    display: inline-block;
+    cursor: pointer;
+    text-shadow: 0 0 5px #fff;
+    text-decoration: none;
+    padding: 0.25rem 3rem;
+}
+
+.btn-vintage:hover {
+    transform: scale(1.05) translateY(-2px);
+    box-shadow: 0 10px 25px rgba(243, 229, 171, 0.4);
+    filter: brightness(1.1);
+}
+
+.btn-vintage:active {
+    transform: scale(0.98);
+}
+
+/* Hiệu ứng chuyển trang mượt mà */
+.animate-fade-in {
+    animation: fadeIn 0.5s ease-out forwards;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* nhập code */
+/* Ô hiển thị từng chữ số */
+.code-digit {
+    width: 60px;
+    height: 80px;
+    border-bottom: 3px solid var(--color-gold);
+    margin: 0 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3rem;
+    font-family: var(--font-main);
+    background: rgba(255, 255, 255, 0.05);
+}
+
+/* Phím số tròn */
+.numpad-key {
+    width: 85px;
+    height: 85px;
+    border-radius: 50%;
+    border: 1px solid var(--color-gold);
+    background: linear-gradient(
+        to bottom,
+        rgba(125, 60, 60, 0.3),
+        rgba(61, 26, 26, 0.6)
+    );
+    color: var(--color-gold);
+    font-size: 2rem;
+    font-family: var(--font-main);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+}
+
+.numpad-key:hover {
+    background: var(--color-gold);
+    color: var(--color-velvet);
+    box-shadow: 0 0 20px var(--color-gold-glow);
+}
+
+.numpad-key:active {
+    transform: scale(0.9);
+}
+/* thông báo lỗi */
+/* =========================================
+   TOAST NOTIFICATION COMPONENT
+   ========================================= */
+.toast-msg {
+    background: rgba(20, 5, 5, 0.95);
+    border: 1px solid var(--color-gold);
+    color: var(--color-gold);
+    padding: 1rem 1.5rem;
+    border-radius: 12px;
+    font-family: var(--font-main);
+    font-size: 1.25rem;
+    box-shadow:
+        0 5px 20px rgba(0, 0, 0, 0.8),
+        inset 0 0 10px rgba(243, 229, 171, 0.1);
+    transform: translateX(120%); /* Ẩn ra ngoài màn hình bên phải */
+    transition: transform 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55); /* Hiệu ứng nảy nhẹ */
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    backdrop-filter: blur(5px);
+}
+
+.toast-msg.show {
+    transform: translateX(0); /* Trượt vào trong */
+}
+
+/* Biến thể khi có lỗi */
+.toast-error {
+    border-color: #ff4d4d;
+    color: #ffcccc;
+    box-shadow:
+        0 5px 20px rgba(0, 0, 0, 0.8),
+        inset 0 0 10px rgba(255, 77, 77, 0.2);
+}
+/* chọn layout */
+/* =========================================
+   SELECT LAYOUT CARDS
+   ========================================= */
+.layout-card {
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.layout-card img {
+    border: 3px solid transparent;
+    border-radius: 8px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.6);
+}
+
+/* Hiệu ứng khi lướt chuột qua */
+.layout-card:hover img {
+    transform: scale(1.05);
+    border-color: rgba(243, 229, 171, 0.4);
+}
+
+/* Hiệu ứng khi click chọn */
+.layout-card.selected img {
+    border-color: var(--color-gold);
+    box-shadow: 0 0 30px var(--color-gold-glow);
+    transform: scale(1.05);
+}
+
+/* Nút nhãn (1-2 người) dưới mỗi khung */
+.layout-label {
+    background: linear-gradient(
+        to bottom,
+        var(--color-velvet-light),
+        var(--color-velvet)
+    );
+    border: 1px solid rgba(243, 229, 171, 0.3);
+    color: var(--color-gold);
+    padding: 0.4rem 2rem;
+    border-radius: 50px;
+    font-family: var(--font-main);
+    font-weight: bold;
+    font-size: 1.5rem;
+    margin-top: 2rem;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+}
+/*===== retake page ====*/
+.retake-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: #5a3c1c;
+    margin-top: 20px;
+}
+.retake-row {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 50px;
+}
+.btn-retake {
+    background-color: #fffcf4; /* Nâu đậm */
+    color: #92362a; /* Màu chữ kem */
+    font-family: "Playfair Display", sans-serif;
+    font-size: 40px;
+    padding: 10px 28px 10px 14px; /* Canh lề trong */
+    border: none;
+    line-height: 40px;
+    width: 250px;
+    height: 70px;
+    border-radius: 50px; /* Bo tròn */
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-align: center;
+    text-decoration: none;
+}
+.retake-title {
+    font-family: "Playfair Display", serif;
+    color: #fffcf4;
+    font-size: 30px;
+    font-weight: 600;
+}
+#preview {
+    margin-top: 30px;
+    width: 725px;
+    border: 5px solid #4b2b0c;
+    border-radius: 15px;
+}
+/* end retake page */

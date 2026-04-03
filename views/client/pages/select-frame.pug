@@ -1,0 +1,44 @@
+extends ../layout/default.pug
+include ../mixins/button.pug
+
+block content
+  style.
+    .no-scrollbar::-webkit-scrollbar { display: none; }
+    .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+  //- Tiêu đề
+  h1(class="animate-fade-up text-[7rem] font-pinyon text-main mb-4 leading-none") Chọn khung
+
+  //- Khu vực chứa Khung ảnh & Thanh cuộn
+  div(class="animate-fade-up delay-100 flex flex-col items-center w-full max-w-[85vw]")
+    div(class="bg-[#fcfaf5] rounded-[2.5rem] p-10 pb-6 w-full shadow-sm border border-white/60 relative")
+      
+      //- Container cuộn ngang
+      div(id="frame-scroll-container" class="flex items-center gap-8 overflow-x-auto snap-x snap-mandatory scroll-smooth no-scrollbar pb-4")
+        
+        //- Kiểm tra xem có frame nào không
+        if frameList && frameList.length > 0
+          each frame in frameList
+            //- Thuộc tính data-frame sẽ lưu tên file (vd: frame-1.png)
+            button(class="frame-option snap-center shrink-0 transition-all duration-300 rounded-lg p-1 focus:outline-none" data-frame=frame)
+              //- Đường dẫn động dựa vào layout đã chọn và tên file
+              img(src=`/frames/${selectedLayout}/${frame}` alt=frame class="h-[40vh] object-contain drop-shadow-md pointer-events-none")
+        else
+          p(class="text-2xl font-sans text-main text-center w-full") Không tìm thấy khung nào cho bố cục này!
+
+      //- Thanh cuộn giả
+      div(class="w-3/4 max-w-2xl mx-auto h-5 bg-main rounded-full mt-4 border-[3px] border-main relative overflow-hidden")
+        div(id="scroll-thumb" class="h-full bg-[#fcfaf5] rounded-full w-1/3 absolute top-0 left-0 transition-all duration-75 ease-out")
+
+  //- Lưu trữ tạm selectedLayout để JS lấy ném vào API
+  input(type="hidden" id="hidden-selected-layout" value=selectedLayout)
+  
+  script(src="/js/frame.js")
+
+block left-action
+  div(class="animate-fade-up delay-200")
+    +btn-primary("Quay lại", "/select-layout", "px-16 py-3 text-[2.5rem]")
+
+block right-action
+  div(class="animate-fade-up delay-200")
+    +btn-primary("Tiếp tục", "#", "btn-continue px-16 py-3 text-[2.5rem] opacity-50 pointer-events-none")

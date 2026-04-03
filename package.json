@@ -1,0 +1,44 @@
+{
+    "name": "products-management",
+    "version": "1.0.0",
+    "description": "",
+    "main": "index.js",
+    "scripts": {
+        "start": "node index.js",
+        "dev": "nodemon index.js"
+    },
+    "author": "",
+    "license": "ISC",
+    "dependencies": {
+        "@00f100/pdf-to-printer": "^5.6.5",
+        "@aws-sdk/client-s3": "^3.967.0",
+        "@google/generative-ai": "^0.24.1",
+        "@imgly/background-removal-node": "^1.4.5",
+        "axios": "^1.13.2",
+        "body-parser": "^2.2.0",
+        "cookie-parser": "^1.4.7",
+        "dotenv": "^17.2.3",
+        "express": "^5.1.0",
+        "express-flash": "^0.0.2",
+        "express-session": "^1.18.2",
+        "form-data": "^4.0.5",
+        "gm": "^1.25.1",
+        "koffi": "^2.15.0",
+        "method-override": "^3.0.0",
+        "moment-timezone": "^0.6.0",
+        "mongodb": "^6.20.0",
+        "mongoose": "^8.19.1",
+        "mongoose-slug-updater": "^3.3.0",
+        "multer": "^2.0.2",
+        "pug": "^3.0.3",
+        "qrcode": "^1.5.4",
+        "sharp": "0.34.5",
+        "ws": "^8.19.0"
+    },
+    "overrides": {
+        "sharp": "0.34.5"
+    },
+    "devDependencies": {
+        "nodemon": "^3.1.10"
+    }
+}

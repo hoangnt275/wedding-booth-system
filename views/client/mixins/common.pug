@@ -1,0 +1,16 @@
+//- apps/booth/src/views/mixins/common.pug
+
+//- Mixin cho nút bấm
+mixin btn(text, href='#', customClass='')
+  a.btn-vintage(href=href class=customClass)&attributes(attributes)= text
+
+//- Mixin cho tiêu đề lớn phát sáng
+mixin title(text, customClass='')
+  h1.glow-text.italic.text-center(class=customClass)&attributes(attributes)= text
+
+//- Mixin cho khung hiển thị ảnh (Preview)
+mixin photoFrame(src, label='')
+  div.relative.group
+    img(src=src class="border-4 border-white shadow-2xl transition-transform group-hover:scale-105")
+    if label
+      p.text-center.mt-2.italic= label

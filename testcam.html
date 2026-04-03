@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Test Camera</title>
+    </head>
+    <body>
+        <video id="video" autoplay playsinline></video>
+
+        <script>
+            navigator.mediaDevices
+                .getUserMedia({
+                    video: true,
+                    audio: false,
+                })
+                .then((stream) => {
+                    document.getElementById("video").srcObject = stream;
+                })
+                .catch((err) => {
+                    alert("Lỗi: " + err.message);
+                });
+        </script>
+    </body>
+</html>

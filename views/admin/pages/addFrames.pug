@@ -1,0 +1,26 @@
+extends ../layout/default.pug
+block main 
+  h1 Trang khung
+  .row 
+    .col-6
+      .filter-bar
+        button.filter-btn(data-filter="small" class=(filter === "small" ? "active" : "")) Khung nhỏ
+        button.filter-btn(data-filter="bigVerti" class=(filter === "bigVerti" ? "active" : "")) Khung dọc
+        button.filter-btn(data-filter="bigHori" class=(filter === "bigHori" ? "active" : "")) Khung ngang
+    .col-6
+      .edit-bar 
+        // Nút thêm
+        form.form-frame(action="/admin/addFrames/upload" method="post" enctype="multipart/form-data")
+          input(type="hidden" name="filter" value=filter)
+          input(type="file" name="frameFile" accept="image/*" required)
+          button.filter-btn(type="submit") Tải khung lên
+
+        // Nút xoá
+        button.filter-btn#delete-frame-btn Xóa khung đã chọn
+    
+  .frame-container
+    each frame in framesPath
+      .frame-item(data-src=frame)
+        img(src=frame alt="frame image" class="frame" )
+
+  script(src="/admin/js/addFrames.js") 

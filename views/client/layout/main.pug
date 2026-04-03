@@ -1,0 +1,18 @@
+//- apps/booth/src/views/layouts/main.pug
+include ../mixins/common
+
+doctype html
+html(lang="vi")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title foto.latter | Vintage Photobooth
+    script(src="https://cdn.tailwindcss.com")
+    link(href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet")
+    link(rel="stylesheet", href="/css/newStyle.css")
+  
+  //- Áp dụng nền sao cho toàn bộ body
+  body.bg-star-velvet.h-screen.overflow-hidden
+    main.relative.z-10
+      block content
+    script(src="/js/toast.js")

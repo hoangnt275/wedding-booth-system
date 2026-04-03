@@ -1,0 +1,36 @@
+extends ../layout/camera
+
+block content 
+  //- Dùng w-full, h-screen và flex để căn giữa toàn bộ nội dung
+  .homepage-container.w-full.h-screen.flex.flex-col.items-center.justify-center.relative
+    
+    //- Container chụp ảnh
+    .shoot-container.flex.flex-col.items-center.justify-center.w-full.relative.z-10
+      
+      //- Bộ đếm ảnh (Đưa lên góc trái phía trên cho giống máy thật)
+      .photo-count.absolute.top-8.left-12.text-2xl.text-white.font-bold.z-20
+        span(class="text-5xl font-sans text-main mb-2") Đã chụp: 
+        span#current-shot(class="text-5xl font-sans text-main mb-2")= currentCount
+        span(class="text-5xl font-sans text-main mb-2") /
+        span#total-shots(class="text-5xl font-sans text-main mb-2")=layoutConfig.photoCount
+        
+      //- Đếm ngược (Đặt to, rõ ràng ở ngay trên khung camera)
+      div.timer.text-main.font-bold.mb-6.drop-shadow-lg.z-20(class="text-[80px]") 8
+      
+      //- Khung chứa camera
+      //- Thêm mx-auto, rounded-xl, shadow-2xl để khung bo góc đẹp và nằm ngay giữa
+      .camera-frame.mx-auto.shadow-2xl.rounded-xl.border-4.border-white.border-opacity-50(
+        style=`aspect-ratio: ${layoutConfig ? layoutConfig.cameraRatio : '500/500'}; height: 100%; max-height: 600px; overflow: hidden; position: relative; display: flex; justify-content: center; align-items: center; background: #000;`
+      )
+        
+        //- Sửa .camera thành #camera để JS bắt được ID
+        //- Thêm transform: scaleX(-1) để camera lật ngược lại giống soi gương (tùy chọn)
+        video#camera(autoplay playsinline muted style="width: 100%; height: 100%; object-fit: cover; transform: scaleX(-1);")
+
+      //- Canvas ẩn dùng để chụp
+      canvas#canvas(style="display: none;")
+
+  //- Truyền tỉ lệ xuống biến window
+  //- script.
+    //- window.cameraRatio = "#{layoutConfig.cameraRatio}";
+  script(src="/js/shoot.js")

@@ -1,0 +1,21 @@
+//- apps/booth/src/views/layouts/main.pug
+include ../mixins/common
+
+doctype html
+html(lang="vi")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title foto.latter | Vintage Photobooth
+    
+    // Tải Tailwind & Fonts
+    script(src="https://cdn.tailwindcss.com")
+    link(href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet")
+    link(href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet")
+    // Link file CSS vừa tách
+    link(rel="stylesheet", href="/css/homeStyle.css")
+    
+    block scripts
+  body
+    main.h-screen.w-full.relative
+      block content

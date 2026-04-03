@@ -1,0 +1,10 @@
+const express = require("express");
+const router = express.Router();
+const controller = require("../../controllers/client/api.controller");
+router.post("/countImage", controller.countImage);
+router.post("/uploadToR2", controller.uploadToR2);
+router.post("/genSticker", controller.genSticker);
+router.post("/print", controller.print);
+router.post("/delete", controller.delete);
+router.post("/move-image", controller.moveImages);
+module.exports = router;

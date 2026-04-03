@@ -1,0 +1,55 @@
+doctype html
+html(lang="vi")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport" content="width=device-width, initial-scale=1.0")
+    title Wedding Photobooth
+    
+    //- CSS Hiệu ứng dùng chung cho toàn bộ hệ thống
+    style.
+      @keyframes fadeUp {
+        from { opacity: 0; transform: translateY(30px); }
+        to { opacity: 1; transform: translateY(0); }
+      }
+      .animate-fade-up {
+        animation: fadeUp 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        opacity: 0; /* Ẩn đi trước khi animation chạy */
+      }
+      .delay-100 { animation-delay: 0.15s; }
+      .delay-200 { animation-delay: 0.3s; }
+      .delay-300 { animation-delay: 0.45s; }
+
+    //- Import Google Fonts
+    link(rel="preconnect" href="https://fonts.googleapis.com")
+    link(rel="preconnect" href="https://fonts.gstatic.com" crossorigin)
+    link(href="https://fonts.googleapis.com/css2?family=Pinyon+Script&family=Playfair+Display+SC:wght@400;700&display=swap" rel="stylesheet")
+    
+    //- Style cho local fonts (Open Sauce)
+    style.
+      @font-face {
+        font-family: 'Open Sauce';
+        src: url('/fonts/OpenSauce.woff2') format('woff2'), url('/fonts/OpenSauce.ttf') format('truetype');
+        font-display: swap;
+      }
+
+    //- Tailwind CSS
+    script(src="https://cdn.tailwindcss.com")
+    script.
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              main: '#2b2b2b',
+              beige: '#fffcf4',
+            },
+            fontFamily: {
+              pinyon: ['"Pinyon Script"', 'cursive'],
+              sans: ['"Open Sauce"', 'sans-serif'],
+              playfair: ['"Playfair Display SC"', 'serif'],
+            }
+          }
+        }
+      }
+
+  body(class="w-screen h-screen overflow-hidden bg-beige text-main relative" style="background-image: url('/ui/bg.png'); background-size: cover; background-position: center;")
+    block layout

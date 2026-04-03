@@ -1,0 +1,31 @@
+extends ../layout/main
+
+block content
+  div.h-screen.w-full.flex.items-center.justify-center.p-12.animate-fade-in
+    //- Khung nội dung chính (Glass Panel)
+    div.w-full.max-w-7xl.p-12.flex.flex-col.items-center
+      
+      //- Tiêu đề trang
+      h1.font-logo.text-6xl.glow-text.mt-6.mb-4 Lưu ý khi chụp
+
+      //- Nội dung các bước
+      div.space-y-4.text-center.max-w-3xl
+        div.instruction-step
+          span.step-number Bước 1:
+          p.text-3xl Quý khách sẽ chọn Frame trước khi chụp hình
+        
+        div.instruction-step
+          span.step-number Bước 2:
+          p.text-3xl Quý khách sẽ chụp tổng 12 lượt và chọn 4 tấm trong 12 tấm đã chụp
+        
+        div.instruction-step
+          span.step-number Bước 3:
+          p.text-3xl Áp filter và in ảnh 
+          p.text-3xl.mt-2 quý khách vui lòng 
+            span.font-bold.underline quét mã QR trên màn hình 
+            |  để lấy file!
+
+      //- Footer Buttons
+      div.flex.justify-between.w-full.mt-16
+        +btn('Quay lại', '/', ' italic px-12')
+        +btn('Tiếp tục', '/select-layout', 'italic px-12')

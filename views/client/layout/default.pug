@@ -1,0 +1,23 @@
+extends base.pug
+
+block layout
+  //- Header chung cho các trang Select
+  header(class="absolute top-0 left-0 w-full px-12 py-5 flex justify-between items-start z-10")
+    div.logo-container
+      img(src="/ui/logo.png" alt="Foto Latter" class="h-32 object-contain")
+    div.save-the-date-container
+      //- Đã thay bằng ảnh để hiển thị font Symphony chuẩn xác
+      img(src="/ui/savethedate.png" alt="Save the date!" class="h-16 object-contain")
+
+  //- Khu vực nội dung chính thay đổi theo từng trang
+  main(class="w-full h-full flex flex-col items-center justify-center relative z-0 ")
+    block content
+
+  //- Footer chung có Instagram
+  footer(class="absolute bottom-0 left-0 w-full px-12 py-10 flex justify-between items-end z-10")
+    div(class="w-1/3 flex justify-start")
+      block left-action
+    div(class="w-1/3 text-center pb-3")
+      p(class="text-xl font-sans text-main") @fotolatter.everafter
+    div(class="w-1/3 flex justify-end")
+      block right-action

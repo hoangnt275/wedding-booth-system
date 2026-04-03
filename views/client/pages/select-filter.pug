@@ -1,0 +1,34 @@
+extends ../layout/default.pug
+include ../mixins/button.pug
+
+block content
+  //- Tiêu đề
+  h1(class="animate-fade-up text-[7rem] font-pinyon text-main mb-12 leading-none") Chọn màu ảnh
+
+  //- Khung chứa 2 phần: Ảnh preview (Trái) và Nút Filter (Phải)
+  div(class="animate-fade-up delay-100 flex flex-row items-center justify-center gap-24 w-full max-w-6xl")
+    
+    //- BÊN TRÁI: Khung hiển thị ảnh Preview
+    //- Dùng bg-white và p-3 để tạo viền trắng giả lập giống ảnh Polaroid thật
+    div(class="relative shadow-2xl bg-white p-3 rounded-sm")
+      img(id="preview-image" src=mergedPhotoUrl alt="Preview Image" class="h-[55vh] w-auto object-contain block")
+      
+    //- BÊN PHẢI: Các nút chọn màu
+    div(class="flex flex-row gap-8")
+      //- Nút "Màu sáng" (Mặc định được chọn nên có sẵn viền ring và màu nền đậm)
+      button(class="filter-btn px-12 py-3 rounded-[50px] bg-main text-white text-[3rem] font-pinyon transition-all duration-300 ring-4 ring-main ring-opacity-50 scale-105" data-filter="original") Màu sáng
+      
+      //- Nút "Màu film" (Trạng thái chưa chọn: trong suốt, có viền)
+      button(class="filter-btn px-12 py-3 rounded-[50px] bg-transparent text-main border border-main text-[3rem] font-pinyon hover:bg-gray-200 transition-all duration-300" data-filter="vintage") Màu film
+
+  //- Nhúng script logic
+  script(type="module" src="/js/filter.js")
+
+block left-action
+  //- Trong thiết kế số 6 không có nút "Quay lại", nên tôi để trống khối này
+  div
+
+block right-action
+  //- Nút Tiếp tục (Thêm id="btn-finish" để JS bắt được sự kiện)
+  div(class="animate-fade-up delay-200")
+    button(id="btn-finish" class="bg-main text-white px-16 py-3 rounded-[50px] text-[2.5rem] font-pinyon hover:opacity-90 transition-opacity shadow-md") Tiếp tục

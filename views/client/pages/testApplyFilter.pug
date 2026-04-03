@@ -1,0 +1,21 @@
+extends ../layout/default.pug
+
+block main
+  .homepage-container
+    .edit-container
+      .edited-photo
+        img(
+          src="/uploads/test.jpg"
+          alt="edited"
+          style="max-width:500px; height:auto;"
+          data-frame-type=frameType
+          data-selected-frame=selectedFrame
+        )
+
+      .filter-group
+        each value, key in filters
+          button.btn-primary.btn-filter(data-filter=key)= key
+
+    a.btn-guide.btn-finish(href="/printing") Finish
+
+  script(src="/js/test-apply-filter.js")

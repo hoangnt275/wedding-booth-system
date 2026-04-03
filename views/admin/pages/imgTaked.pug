@@ -1,0 +1,8 @@
+extends ../layout/default.pug
+block main 
+  h1 Ảnh đã chụp
+  p Tổng số ảnh đã chụp: #{count}
+  ul
+    each img in imgTaked
+      li
+        img(src=`/uploads/${img}` alt=`${img}` width="200")

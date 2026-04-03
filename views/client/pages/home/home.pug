@@ -1,0 +1,14 @@
+extends ../../layout/homeLayout
+
+block content
+  div.h-screen.flex.flex-col.items-center.justify-center
+    // Logo với font Pinyon Script
+    div.mb-4
+      h1.text-9xl.font-logo.glow-logo foto.latter?
+    
+    div.text-center.tracking-vintage.mb-12
+      p.text-4xl.uppercase.opacity-80 THE FIRST 
+      p.text-6xl.font-bold.glow-text.mt-2 VINTAGE PHOTOBOOTH 
+      p.text-4xl.uppercase.mt-2 EVER IN LAO CAI
+    
+    +btn('Bắt đầu', '/select-layout', ).mt-20

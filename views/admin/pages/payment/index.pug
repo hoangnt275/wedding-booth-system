@@ -1,0 +1,46 @@
+extends ../../layout/admin
+
+block content
+  p GIAO DIỆN ADMIN - vui lòng lưu hành nội bộ
+  h1 THANH TOÁN
+  form.form-code(action="/admin/payment/code", method="post")
+    .row 
+      .col-6 
+        .payment-type-group
+          p 1. Hình thức thanh toán
+          div(class="payment-type")
+            input(type="radio", name="paymentType", id="banking" value="BANKING" required)  
+            label(for="banking") Chuyển khoản
+            input(type="radio", name="paymentType", id="cash" value="CASH" required)  
+            label(for="cash") Tiền mặt
+        .paper-size-group
+          p 2. Kích thước ảnh
+          div(class="paper-size") 
+            input(type="radio", name="paperSize", id="small",value="SMALL" ) 
+            label(for="small") NHỎ
+            input(type="radio", name="paperSize", id="large", value="LARGE") 
+            label(for="large") LỚN
+      .col-6
+        div.info-group
+          p 3.Thông tin 
+          label(for="price") Giá tiền
+          input(type="text", name="price", id="price" value="" required)
+          label(for="pay") Khách trả
+          input(type="text", name="pay", id="pay" value="" )
+          label(for="back") Còn thừa
+          input(type="text", name="back", id="back"  readonly)
+
+          label(for="note") Ghi chú
+          textarea(name="note", id="note", rows="3", placeholder="Nhập ghi chú giao dịch (nếu có)...")
+    .row 
+      .col-12 
+        button(type="submit") Xác nhận thanh toán
+  //-   //- Cấu trúc Popup Modal (Mặc định được ẩn bằng CSS)
+  //- #successModal.modal-overlay
+  //-   .modal-content
+  //-     span.close-btn(id="closeModalBtn") &times;
+  //-     h2 THÀNH CÔNG!
+  //-     p Giao dịch đã được ghi nhận. Mã của bạn là:
+  //-     .code-display#generatedCode ---
+  //-     button.btn-done(id="doneBtn") Đóng và Tạo mới
+  script(src="/admin/js/payment.js" defer)

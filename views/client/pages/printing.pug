@@ -1,0 +1,41 @@
+extends ../layout/main
+
+block content 
+  //- Container chính bao phủ toàn màn hình
+  div(class="w-full min-h-screen flex flex-col items-center justify-center p-8 relative z-10")
+    
+    //- Lời cảm ơn (Tiêu đề)
+    p(class="text-4xl text-[#fcebb6] font-['Playfair_Display'] mb-12 text-center drop-shadow-lg leading-snug")
+      | Ảnh của quý khách đang được in, 
+      span(class="font-bold text-5xl text-yellow-400 font-['Pinyon_Script']") foto.latter 
+      | xin cảm ơn và hẹn gặp lại ạ!
+
+    //- Khung chứa Ảnh và Mã QR (Hiệu ứng kính mờ - Glassmorphism nhẹ)
+    div(class="w-full max-w-5xl flex flex-row gap-16 items-center justify-center bg-black/30 p-12 rounded-3xl shadow-2xl border border-[#a67c52]/50 mb-12 backdrop-blur-sm")
+      
+      //- CỘT TRÁI: Ảnh đã chụp
+      div(class="w-1/2 flex flex-col items-center gap-6")
+        p(class="text-3xl text-[#fcebb6] font-['Playfair_Display'] border-b-2 border-[#a67c52] pb-2") Ảnh của bạn
+        
+        //- Thêm viền trắng phong cách ảnh in thật, hơi nghiêng nhẹ tạo điểm nhấn
+        div(class="bg-white p-3 rounded-sm shadow-[0_0_20px_rgba(0,0,0,0.6)] transform -rotate-2 hover:rotate-0 transition-transform duration-300")
+          img(src=finalPhoto, alt="Ảnh đã chụp", class="max-h-[380px] object-contain border border-gray-200")
+
+      //- CỘT PHẢI: Mã QR tải ảnh
+      div(class="w-1/2 flex flex-col items-center gap-6")
+        p(class="text-2xl text-[#fcebb6]/90 text-center font-['Playfair_Display'] leading-relaxed")
+          | Quét mã QR để tải File gốc về điện thoại nha! 
+          br
+          span(class="text-lg text-yellow-300 italic") (Mã có hiệu lực trong 24h)
+        
+        //- Bọc QR trong nền trắng dày để camera điện thoại dễ lấy nét nhất
+        div(class="bg-white p-4 rounded-2xl shadow-[0_0_30px_rgba(252,235,182,0.2)] hover:scale-105 transition-transform duration-300")
+          img(src=qr, alt="Mã QR tải ảnh", class="w-52 h-52 object-contain")
+
+    //- Nút Hoàn thành
+    button#btn-finish(
+      class="btn-finish px-16 py-4 rounded-[30px] border-2 border-[#a67c52] text-[#fcebb6] text-3xl font-['Playfair_Display'] shadow-[0_0_20px_rgba(252,235,182,0.5)] transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer",
+      style="background: linear-gradient(180deg, #6c3b38, #3b1b1a);"
+    ) Hoàn tất
+
+  script(src="/js/printing.js")

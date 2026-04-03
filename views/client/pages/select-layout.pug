@@ -1,0 +1,31 @@
+extends ../layout/default.pug
+include ../mixins/button.pug
+
+block content
+  //- Tiêu đề (hiện đầu tiên)
+  h1(class="animate-fade-up text-[7rem] font-pinyon text-main mb-2 leading-none") Chọn bố cục
+
+  //- Khung chọn ảnh (hiện thứ 2)
+  div(class="animate-fade-up delay-100 bg-[#fcfaf5] rounded-[2.5rem] px-12 py-10 flex items-center justify-center gap-8 shadow-sm border border-white/60")
+    
+    button(class="layout-option transition-all duration-300 rounded-lg p-1" data-layout="layout-1")
+      img(src="/layout/layout-1.png" alt="Layout 1" class="h-[45vh] object-contain drop-shadow-xl pointer-events-none")
+
+    button(class="layout-option transition-all duration-300 rounded-lg p-1" data-layout="layout-2")
+      img(src="/layout/layout-2.png" alt="Layout 2" class="h-[45vh] object-contain drop-shadow-xl pointer-events-none")
+
+    button(class="layout-option transition-all duration-300 rounded-lg p-1" data-layout="layout-3")
+      img(src="/layout/layout-3.png" alt="Layout 3" class="h-[45vh] object-contain drop-shadow-xl pointer-events-none")
+
+    button(class="layout-option transition-all duration-300 rounded-lg p-1" data-layout="layout-4")
+      img(src="/layout/layout-4.png" alt="Layout 4" class="h-[30vh] object-contain drop-shadow-xl pointer-events-none")
+
+  script(src="/js/layout.js")
+
+block left-action
+  div(class="animate-fade-up delay-200")
+    +btn-primary("Quay lại", "/", "px-16 py-3 text-[2.5rem]")
+
+block right-action
+  div(class="animate-fade-up delay-200")
+    +btn-primary("Tiếp tục", "#", "btn-continue px-16 py-3 text-[2.5rem] opacity-50 pointer-events-none")

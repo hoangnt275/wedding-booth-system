@@ -1,0 +1,29 @@
+extends ../../layout/admin
+block content
+
+  div(class="admin-payment")
+    p(class="notice") GIAO DIỆN ADMIN - VUI LÒNG LƯU HÀNH NỘI BỘ
+    h1 THANH TOÁN
+    
+    //- Phần 1: Trả mã code
+    .section
+      p 1. KIỂM TRA THÔNG TIN LƯỢT THANH TOÁN
+      .row
+        div(style="display:flex") 
+          div(style="display:flex;gap:10px") 
+            p(style="width:max-content") Kích thước ảnh:
+            p(class="paperSize" style="text-transform: none" paper-size)=paperSize
+          div(style="display:flex;gap:10px") 
+            p(style="margin-left:200px;width:max-content") Thanh toán:  
+            p(class="paymentType" style="text-transform: none" payment-type)=paymentType
+          input(type="hidden", name="note", value=note)
+        button.btn.primary(type="button" btn-gen-code) TẠO CODE
+        input.code-input(type="text" placeholder="" readonly code-display )
+
+    //- Phần 2: In bill
+    .section
+      p 2. TẠO CODE
+      .row
+        //- button.btn.primary(type="button") IN CODE
+        button.btn.primary(type="button" finish-code) HOÀN THÀNH
+  script(src="/admin/js/code.js") 

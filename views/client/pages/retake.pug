@@ -1,0 +1,42 @@
+extends ../layout/camera.pug
+
+block content 
+  //- Container chính (Sử dụng toàn bộ chiều cao màn hình)
+  .w-full.h-full.flex.flex-col.relative.z-10#app-container(data-photo-count=layoutConfig ? layoutConfig.photoCount : 1)
+    
+    //- PHẦN 1: HEADER (Chứa Tiêu đề, Thông số và 2 Nút thao tác)
+    .flex.justify-between.items-start.w-full.mb-6
+      
+      //- CỘT TRÁI: Tiêu đề "Ảnh số..." và Nút "Chụp lại"
+      .flex.flex-col.items-start.gap-4.animate-fade-up
+        //- Tiêu đề ảnh số mấy (Giả định bạn truyền currentCount từ controller xuống)
+        h2.font-pinyon.text-main.leading-none(class="text-[5rem]") Ảnh số #{currentCount || 1}
+        
+        //- Nút Chụp lại (Giữ nguyên retake-button attribute)
+        button(class="bg-main text-white px-12 py-2 rounded-[50px] text-[3rem] font-pinyon hover:opacity-90 transition-opacity shadow-md" retake-button) Chụp lại
+      
+      //- CỘT PHẢI: Số lần đã chụp lại và Nút "Lấy tấm này"
+      .flex.flex-col.items-end.gap-4.animate-fade-up.delay-100
+        //- Thông số chụp lại (Sử dụng tracking-widest để giãn chữ giống thiết kế)
+        div.text-3xl.font-sans.font-bold.text-main.tracking-widest.uppercase.mt-4
+          | ĐÃ CHỤP LẠI #{String(retakeCount || 1).padStart(2, '0')}/03 LẦN
+        
+        //- Nút Đi tiếp (Giữ nguyên no-button attribute)
+        button(class="bg-main text-white px-12 py-2 rounded-[50px] text-[3rem] font-pinyon hover:opacity-90 transition-opacity shadow-md" no-button) Lấy tấm này
+
+    //- PHẦN 2: KHUNG HIỂN THỊ ẢNH VỪA CHỤP (Preview)
+    //- flex-1 giúp khu vực này tự động đẩy căng ra, chiếm hết phần diện tích còn lại ở dưới
+    .animate-fade-up.delay-200.w-full.flex-1.relative.flex.justify-center.items-center.overflow-hidden
+      
+      //- Thẻ IMG giữ nguyên các attribute động của bạn
+      //- Đã xóa border-radius theo đúng thiết kế vuông vức của photobooth
+      img#preview(
+        alt="Preview Image" 
+        frameType=frameType 
+        src=latestImage 
+        class="shadow-2xl object-cover bg-main"
+        style=`aspect-ratio: ${layoutConfig ? layoutConfig.cameraRatio : '16/9'}; max-height: 100%; max-width: 100%;`
+      )
+
+  //- Nhúng script xử lý logic
+  script(src="/js/retake.js")
