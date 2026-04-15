@@ -1,52 +1,38 @@
 const path = require("path");
-const fs = require("fs"); // Nhớ gọi thư viện fs để đọc file
+const fs = require("fs"); 
 const QRCode = require("qrcode");
 
 module.exports.index = async (req, res) => {
     try {
-        const { finalPhoto } = req.session;
+        // Lấy sessionCode đã được API Upload tạo ra và lưu lại trước đó
+        const { finalPhoto, eventSlug, sessionCode } = req.session;
 
-        // 1. Lấy ngày và tháng hiện tại
-        const now = new Date();
-        const date = now.getDate();
-        const month = now.getMonth() + 1; // Tháng trong Javascript bắt đầu từ 0 nên phải +1
+        // Xử lý dự phòng nếu mất session
+        const currentEvent = eventSlug || "default-wedding";
+        
+        // Nếu không có sessionCode (do khách nhảy thẳng vào link /printing), tự sinh tạm 1 mã để không văng lỗi
+        const currentCode = sessionCode || String(Date.now()).slice(-6); 
 
-        // 2. Đọc tổng số lượt chụp từ stats.json
-        let totalSessions = 0;
-        const statsFilePath = path.join(
-            __dirname,
-            "../../public/data/stats.json",
-        );
-
-        if (fs.existsSync(statsFilePath)) {
-            const rawData = fs.readFileSync(statsFilePath, "utf8");
-            if (rawData.trim() !== "") {
-                const stats = JSON.parse(rawData);
-                totalSessions = stats.totalSessions || 0;
-            }
-        }
-
-        // 3. Tạo mã code theo định dạng: ngày-tháng-{totalSessions + 1}
-        // Ví dụ: 28-3-112
-        const code = `${date}-${month}-${totalSessions + 1}`;
-
-        // 4. Gắn vào URL và tạo mã QR (Dự phòng localhost nếu BASE_URL chưa có)
-        const baseUrl = process.env.BASE_URL;
-        const url = `${baseUrl}/${code}`;
+        // 1. Gắn vào URL và tạo mã QR
+        // Link QR cho khách lẻ sẽ có dạng: fotolatter.info.vn/event/minh-hoa-wedding/142530
+        const baseUrl = process.env.BASE_URL || "https://fotolatter.info.vn";
+        const url = `${baseUrl}/event/${currentEvent}/${currentCode}`;
 
         const qr = await QRCode.toDataURL(url);
 
-        // 5. Render giao diện
+        // 2. Render giao diện
         res.render("client/pages/printing", {
             finalPhoto: `images/${finalPhoto}`,
             pageTitle: "Trang in ảnh",
             qr: qr,
+            sessionCode: currentCode // Truyền mã ra frontend để in lên giấy nếu cần
         });
     } catch (error) {
         console.error("Lỗi tại trang in ảnh:", error);
         res.status(500).send("Đã có lỗi xảy ra khi tạo QR Code!");
     }
 };
+
 module.exports.test = (req, res) => {
     res.render("client/pages/testPrinting", {
         pageTitle: "Trang test in anh",

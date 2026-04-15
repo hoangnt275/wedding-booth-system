@@ -52,18 +52,35 @@ document.addEventListener("DOMContentLoaded", () => {
             if (typeof Loading !== "undefined") Loading.show();
 
             // Gọi API in ảnh (POST request)
-            const response = await fetch(`/api/print?printCount=${count}`, {
+            // const response = await fetch(`/api/print?printCount=${count}`, {
+            //     method: "POST",
+            //     headers: {
+            //         "Content-Type": "application/json",
+            //     },
+            // });
+            console.log("Số bản in dự kiến (đang test upload nên chưa in): ", count);
+
+            // ==========================================
+            // GỌI API UPLOAD R2 ĐỂ TEST
+            // ==========================================
+            const r2Response = await fetch("/api/uploadToR2", { 
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
                 },
+                // Nếu sau này bạn có trang chọn sự kiện ở frontend, 
+                // bạn truyền tên sự kiện xuống backend như sau:
+                // body: JSON.stringify({ eventSlug: "minh-hoa-wedding" })
             });
 
-            // Tùy theo cách API /api/print của bạn trả về. Thường là response.ok hoặc check json
-            if (response.success === true) {
-                // TẮT LOADING (Tuỳ chọn: nếu trang /printing tải nhanh thì có thể bỏ qua dòng này để chuyển trang luôn cho mượt)
-                // if(typeof Loading !== 'undefined') Loading.hide();
-                await fetch("/api/uploadToR2", { method: "POST" });
+            // Lấy kết quả trả về từ backend (chính là cái res.json() ban nãy mình viết)
+            const result = await r2Response.json();
+
+            if (result.success === true) {
+                console.log("✅ Upload R2 Thành công!");
+                console.log("👉 Sự kiện:", result.eventSlug);
+                console.log("👉 Mã lượt chụp (để làm QR):", result.sessionCode);
+
                 // Chuyển tới màn hình in/QR kết thúc
                 window.location.href = "/printing";
             } else {

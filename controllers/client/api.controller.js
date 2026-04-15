@@ -30,69 +30,52 @@ module.exports.countImage = (req, res) => {
 module.exports.uploadToR2 = async (req, res) => {
     try {
         const { finalPhoto, filterName } = req.session;
+        const eventSlug = req.session.eventSlug || "default-wedding";
 
-        if (!finalPhoto) {
-            console.error("No final photo in session");
-            return res.status(500).json({ error: "No final photo in session" });
-        }
-        if (!filterName) {
-            console.error("No filter name in session");
-            return res.status(500).json({ error: "No filter name in session" });
+        if (!finalPhoto || !filterName) {
+            return res.status(500).json({ error: "Thiếu dữ liệu session" });
         }
 
-        const finalPhotoPath = path.join(
-            __dirname,
-            "../../public/images",
-            finalPhoto.replace(/^\/+/, ""),
-        );
-        const uploadsPhotoPath = path.join(
-            __dirname,
-            "../../public/uploads",
-            filterName,
-        );
-        console.log(finalPhotoPath);
-        console.log(uploadsPhotoPath);
+        // 1. Tạo sessionCode theo GiờPhútGiây
+        const now = new Date();
+        const sessionCode = 
+            String(now.getHours()).padStart(2, '0') +
+            String(now.getMinutes()).padStart(2, '0') +
+            String(now.getSeconds()).padStart(2, '0');
+
+        // LƯU VÀO SESSION ĐỂ TRANG PRINTING SỬ DỤNG TẠO MÃ QR
+        req.session.sessionCode = sessionCode;
+
+        const finalPhotoPath = path.join(__dirname, "../../public/images", finalPhoto.replace(/^\/+/, ""));
+        const uploadsPhotoPath = path.join(__dirname, "../../public/uploads", filterName);
+
         try {
-            // 1. Upload ảnh chính (Final Photo) - Đặt là index 1
-            console.log("Đang tải lên ảnh chính...");
-            await uploadPhoto({ filePath: finalPhotoPath, index: 1 });
+            // 2. Upload ảnh chính với tên "final.jpg"
+            await uploadPhoto({ 
+                filePath: finalPhotoPath, 
+                eventSlug, 
+                sessionCode,
+                fileName: "final.jpg" // Đặt tên file là final.jpg
+            });
 
-            // 2. Xử lý folder uploadsPhotoPath
-
-            // Đọc danh sách file trong folder
+            // 3. Upload các ảnh lẻ với tên "photo-1.jpg", "photo-2.jpg"...
             const files = fs.readdirSync(uploadsPhotoPath);
+            const imageFiles = files.filter((file) => [".jpg", ".jpeg", ".png"].includes(path.extname(file).toLowerCase()));
 
-            // Lọc ra các file ảnh (tránh file hệ thống như .DS_Store)
-            const imageFiles = files.filter((file) =>
-                [".jpg", ".jpeg", ".png"].includes(
-                    path.extname(file).toLowerCase(),
-                ),
-            );
-
-            console.log(
-                `Tìm thấy ${imageFiles.length} ảnh trong folder uploads.`,
-            );
-
-            // Dùng vòng lặp for...of để await từng file (không dùng forEach)
             for (let i = 0; i < imageFiles.length; i++) {
                 const fullPath = path.join(uploadsPhotoPath, imageFiles[i]);
-
-                // index bắt đầu từ 2 vì index 1 đã dành cho finalPhoto
-                const photoIndex = i + 2;
-
-                console.log(
-                    `Đang tải lên ảnh phụ ${photoIndex}: ${imageFiles[i]}`,
-                );
                 await uploadPhoto({
                     filePath: fullPath,
-
-                    index: photoIndex,
+                    eventSlug,
+                    sessionCode,
+                    fileName: `photo-${i + 1}.jpg` // Đặt tên file là photo-1, photo-2...
                 });
             }
         } catch (error) {
             console.error("Lỗi trong quá trình upload:", error);
         }
-        res.json({ success: true }); // trả về thành công
+        
+        res.json({ success: true, sessionCode, eventSlug }); 
     } catch (err) {
         console.error("Upload to R2 failed:", err);
         res.status(500).json({ error: err.message });

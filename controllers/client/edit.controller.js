@@ -162,7 +162,8 @@ module.exports.postEdit = async (req, res) => {
 
         console.timeEnd("⏱️ TỔNG THỜI GIAN CHẠY");
         console.log("===============================");
-        req.session.finalPhoto = outputFilename;
+        req.session.filterName = filterName;
+            req.session.finalPhoto = outputFilename;
         return res.json({
             success: true,
             cached: false,

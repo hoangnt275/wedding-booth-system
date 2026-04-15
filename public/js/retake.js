@@ -6,8 +6,7 @@ const frameType = document.querySelector("#preview").getAttribute("frameType");
 const appContainer = document.getElementById("app-container");
 
 // Chuyển đổi string sang number vì data-attribute luôn lưu dạng chuỗi
-const photoCount = parseInt(appContainer.dataset.photoCount, 2);
-// Nút chụp lại
+const photoCount = parseInt(appContainer.dataset.photoCount, 10);// Nút chụp lại
 if (retakeButton) {
     retakeButton.addEventListener("click", async () => {
         try {

@@ -6,7 +6,7 @@ const sharp = require("sharp");
 // ===== CONFIG =====
 const AHK_PATH = "C:/Program Files/AutoHotkey/AutoHotkey.exe";
 const SCRIPT_PATH = path.join(__dirname, "../../ahk/capture.ahk");
-const RAW_DIR = path.join(__dirname, "../../public/uploads/raw");
+const ORIGINAL_DIR = path.join(__dirname, "../../public/uploads/original");
 
 // ===== STATE CONTROL (LOCK) =====
 // Biến này đảm bảo dù Frontend có lỡ gọi 2 lần thì Server chỉ chụp 1 tấm
@@ -136,11 +136,11 @@ module.exports.shoot = async (req, res) => {
     isShooting = true; // 🔒 KHÓA
 
     try {
-        ensureDir(RAW_DIR);
+        ensureDir(ORIGINAL_DIR);
 
         // 2️⃣ SNAPSHOT: Ghi nhớ danh sách file hiện có
         const beforeFiles = new Set(
-            fs.readdirSync(RAW_DIR).filter((f) => /\.(jpe?g|png)$/i.test(f)),
+            fs.readdirSync(ORIGINAL_DIR).filter((f) => /\.(jpe?g|png)$/i.test(f)),
         );
 
         // 3️⃣ TRIGGER: Gọi AHK để chụp (Lưu ý: 8s đếm ngược nên làm ở Frontend)
@@ -148,8 +148,8 @@ module.exports.shoot = async (req, res) => {
         await runAHK();
 
         // 4️⃣ WATCH: Chờ file ảnh mới
-        const newFileName = await waitForNewImage(RAW_DIR, beforeFiles);
-        const fullPath = path.join(RAW_DIR, newFileName);
+        const newFileName = await waitForNewImage(ORIGINAL_DIR, beforeFiles);
+        const fullPath = path.join(ORIGINAL_DIR, newFileName);
 
         console.log(`✅ New file detected: ${newFileName}`);
 
@@ -165,7 +165,7 @@ module.exports.shoot = async (req, res) => {
         return res.json({
             ok: true,
             file: newFileName,
-            url: `/uploads/raw/${newFileName}`, // Trả về đường dẫn để hiển thị ngay
+            url: `/uploads/original/${newFileName}`, // Trả về đường dẫn để hiển thị ngay
         });
     } catch (err) {
         console.error("❌ SHOOT ERROR:", err.message);

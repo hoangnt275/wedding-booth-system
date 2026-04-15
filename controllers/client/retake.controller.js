@@ -2,7 +2,8 @@ const fs = require("fs/promises");
 const path = require("path");
 const { getLayoutByCode } = require("../../helper/layout-list");
 
-const imagesDir = path.join(__dirname, "../../public/uploads/original");
+const originalDir = path.join(__dirname, "../../public/uploads/original");
+let currentCount = 0;
 
 async function getLatestImageByIndex(dir) {
     const files = await fs.readdir(dir);
@@ -25,22 +26,32 @@ async function getLatestImageByIndex(dir) {
 }
 const delay = (ms) => new Promise((r) => setTimeout(r, ms));
 
-// ================= GET /retakeSmall =================
+// ================= GET /retake =================
 module.exports.retake = async (req, res) => {
     try {
         const selectedLayout = req.session.selectedLayout || "layout-1";
-        console.log(selectedLayout);
+        console.log("Selected layout:", selectedLayout);
+        
+        // SỬA LỖI 1: Thêm await ở đây
+        const files = await fs.readdir(originalDir); 
+        const imageFiles = files.filter((file) =>
+            /\.(jpe?g|png)$/i.test(file),
+        );
+        currentCount = imageFiles.length;
+        
         const layoutConfig = getLayoutByCode(selectedLayout);
 
         await delay(2000);
-        const latestImage = await getLatestImageByIndex(imagesDir);
+        const latestImage = await getLatestImageByIndex(originalDir);
         console.log("last image:", latestImage);
+        
         res.render(`client/pages/retake`, {
             pageTitle: "Retake",
             latestImage: latestImage
                 ? `/uploads/original/${latestImage}`
                 : null,
             layoutConfig,
+            currentCount
         });
     } catch (err) {
         console.error("❌ GET RETAKE ERROR:", err);
@@ -48,13 +59,14 @@ module.exports.retake = async (req, res) => {
     }
 };
 
-// ================= POST /retakeSmall =================
+// ================= POST /retake =================
 module.exports.postRetake = async (req, res) => {
     try {
-        const latestImage = await getLatestImageByIndex(imagesDir);
+        // SỬA LỖI 2: Đổi imagesDir thành originalDir
+        const latestImage = await getLatestImageByIndex(originalDir);
 
         if (latestImage) {
-            await fs.unlink(path.join(imagesDir, latestImage));
+            await fs.unlink(path.join(originalDir, latestImage));
             console.log("🗑 Deleted:", latestImage);
         }
 
