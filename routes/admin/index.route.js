@@ -1,16 +1,16 @@
 const dashboardRoutes = require("./dashboard.route");
+const eventsRoutes = require("./events.route");
+const settingsRoutes = require("./settings.route");
 const system = require("../../config/system");
-const paymentRoutes = require("./payment.router");
-const codeListRoutes = require("./codeList.route");
-const addFramesRoutes = require("./addFrames.route");
-const imgTakedRoutes = require("./imgTaked.route");
-const shootRoutes = require("./shoot.route");
+
 module.exports = (app) => {
-    PATH_ADMIN = system.prefixAdmin;
+    const PATH_ADMIN = system.prefixAdmin;
     app.use(PATH_ADMIN + "/dashboard", dashboardRoutes);
-    app.use(PATH_ADMIN + "/payment", paymentRoutes);
-    app.use(PATH_ADMIN + "/codeList", codeListRoutes);
-    app.use(PATH_ADMIN + "/addFrames", addFramesRoutes);
-    app.use(PATH_ADMIN + "/imgTaked", imgTakedRoutes);
-    app.use(PATH_ADMIN + "/shoot", shootRoutes);
+    app.use(PATH_ADMIN + "/events", eventsRoutes);
+    app.use(PATH_ADMIN + "/settings", settingsRoutes);
+    
+    // Redirect /admin to /admin/dashboard
+    app.get(PATH_ADMIN, (req, res) => {
+        res.redirect(`${PATH_ADMIN}/dashboard`);
+    });
 };

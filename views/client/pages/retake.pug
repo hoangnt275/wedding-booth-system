@@ -4,24 +4,19 @@ block content
   //- Container chính (Sử dụng toàn bộ chiều cao màn hình)
   .w-full.h-full.flex.flex-col.relative.z-10#app-container(data-photo-count=layoutConfig ? layoutConfig.photoCount : 1)
     
-    //- PHẦN 1: HEADER (Chứa Tiêu đề, Thông số và 2 Nút thao tác)
-    .flex.justify-between.items-start.w-full.mb-6
+    //- PHẦN 1: HEADER (Chứa Tiêu đề và 2 Nút thao tác)
+    .flex.justify-between.items-center.w-full.mb-6
       
-      //- CỘT TRÁI: Tiêu đề "Ảnh số..." và Nút "Chụp lại"
-      .flex.flex-col.items-start.gap-4.animate-fade-up
-        //- Tiêu đề ảnh số mấy (Giả định bạn truyền currentCount từ controller xuống)
-        h2.font-pinyon.text-main.leading-none(class="text-[5rem]") Ảnh số #{currentCount || 1}
-        
-        //- Nút Chụp lại (Giữ nguyên retake-button attribute)
+      //- Nút Chụp lại (BÊN TRÁI)
+      .animate-fade-up
         button(class="bg-main text-white px-12 py-2 rounded-[50px] text-[3rem] font-pinyon hover:opacity-90 transition-opacity shadow-md" retake-button) Chụp lại
       
-      //- CỘT PHẢI: Số lần đã chụp lại và Nút "Lấy tấm này"
-      .flex.flex-col.items-end.gap-4.animate-fade-up.delay-100
-        //- Thông số chụp lại (Sử dụng tracking-widest để giãn chữ giống thiết kế)
-        div.text-3xl.font-sans.font-bold.text-main.tracking-widest.uppercase.mt-4
-          | ĐÃ CHỤP LẠI #{String(retakeCount || 1).padStart(2, '0')}/03 LẦN
-        
-        //- Nút Đi tiếp (Giữ nguyên no-button attribute)
+      //- Tiêu đề "Ảnh số..." (Ở GIỮA)
+      .animate-fade-up.delay-100
+        h2.font-pinyon.text-main.leading-none(class="text-[5rem]") Ảnh số #{currentCount || 1}
+      
+      //- Nút Lấy tấm này (BÊN PHẢI)
+      .animate-fade-up.delay-200
         button(class="bg-main text-white px-12 py-2 rounded-[50px] text-[3rem] font-pinyon hover:opacity-90 transition-opacity shadow-md" no-button) Lấy tấm này
 
     //- PHẦN 2: KHUNG HIỂN THỊ ẢNH VỪA CHỤP (Preview)

@@ -1,0 +1,165 @@
+extends ../../layout/default.pug
+
+block main
+  //- Mixins for Badges
+  mixin packageBadge(type)
+    if type === 'premium'
+      span.inline-flex.items-center.px-2.py-1.rounded-full.text-xs.font-medium.bg-purple-100.text-purple-800 Premium
+    else
+      span.inline-flex.items-center.px-2.py-1.rounded-full.text-xs.font-medium.bg-gray-100.text-gray-800 Basic
+
+  mixin statusBadge(status)
+    if status === 'upcoming'
+      span.inline-flex.items-center.px-2.py-1.rounded-full.text-xs.font-medium.bg-blue-100.text-blue-800 Sắp diễn ra
+    else if status === 'completed'
+      span.inline-flex.items-center.px-2.py-1.rounded-full.text-xs.font-medium.bg-green-100.text-green-800 Hoàn thành
+    else
+      span.inline-flex.items-center.px-2.py-1.rounded-full.text-xs.font-medium.bg-red-100.text-red-800 Đã hủy
+
+  div.space-y-6
+    //- Header
+    div.flex.items-center.justify-between
+      div
+        h2.text-3xl.font-semibold.text-gray-900 Quản Lý Sự Kiện
+        p.text-sm.text-gray-500.mt-1 Quản lý toàn bộ sự kiện photobooth
+      div.flex.space-x-3
+        button.px-4.py-2.border.border-gray-300.rounded-md.text-sm.font-medium.text-gray-700.bg-white.hover_bg-gray-50.flex.items-center(class="hover:bg-gray-50")
+          i(data-lucide="download" class="w-4 h-4 mr-2")
+          | Xuất Excel
+        a(href="/admin/events/create" class="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 flex items-center")
+          i(data-lucide="plus-circle" class="w-4 h-4 mr-2")
+          | Tạo Sự Kiện
+
+    //- Stats
+    - var totalEvents = events ? events.length : 0
+    - var upcomingEvents = events ? events.filter(e => e.status === 'upcoming').length : 0
+    - var weddingEvents = events ? events.filter(e => e.eventType === 'wedding').length : 0
+    - var premiumEvents = events ? events.filter(e => e.packageType === 'premium').length : 0
+
+    div.grid.gap-4(class="md:grid-cols-4")
+      div.bg-white.overflow-hidden.shadow.rounded-lg.border.border-gray-200
+        div.p-6
+          p.text-sm.text-gray-500 Tổng Sự Kiện
+          p.text-2xl.font-semibold.text-gray-900.mt-1= totalEvents
+      div.bg-white.overflow-hidden.shadow.rounded-lg.border.border-gray-200
+        div.p-6
+          p.text-sm.text-gray-500 Sắp Diễn Ra
+          p.text-2xl.font-semibold.text-gray-900.mt-1= upcomingEvents
+      div.bg-white.overflow-hidden.shadow.rounded-lg.border.border-gray-200
+        div.p-6
+          p.text-sm.text-gray-500 Đám Cưới
+          p.text-2xl.font-semibold.text-gray-900.mt-1= weddingEvents
+      div.bg-white.overflow-hidden.shadow.rounded-lg.border.border-gray-200
+        div.p-6
+          p.text-sm.text-gray-500 Gói Premium
+          p.text-2xl.font-semibold.text-gray-900.mt-1= premiumEvents
+
+    //- Events Table
+    div.bg-white.shadow.rounded-lg.border.border-gray-200
+      div.px-6.py-5.border-b.border-gray-200.flex.items-center.justify-between.flex-wrap.gap-4
+        h3.text-lg.font-medium.leading-6.text-gray-900 Danh Sách Sự Kiện
+        div.flex.items-center.space-x-3
+          //- Filter
+          select.px-3.py-2.text-sm.border.border-gray-300.rounded-md.focus_outline-none.focus_ring-2.focus_ring-blue-500(class="focus:outline-none focus:ring-2 focus:ring-blue-500")
+            option(value="all") Tất cả loại
+            option(value="wedding") Đám cưới
+            option(value="general") Sự kiện chung
+          
+          //- Search
+          div.relative.w-64
+            i(data-lucide="search" class="absolute left-3 top-1/2 transform -translate-y-1/2 w-4 h-4 text-gray-400")
+            input(type="text" placeholder="Tìm kiếm sự kiện..." class="pl-10 w-full px-3 py-2 border border-gray-300 rounded-md sm:text-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500")
+
+      div.overflow-x-auto
+        table.min-w-full.divide-y.divide-gray-200
+          thead.bg-gray-50
+            tr
+              th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.tracking-wider.w-12 STT
+              th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.tracking-wider Tên Sự Kiện
+              th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.tracking-wider Mã Sự Kiện
+              th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.tracking-wider Ngày Giờ
+              th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.tracking-wider Loại Gói
+              th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.tracking-wider Loại Sự Kiện
+              th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.tracking-wider Địa Điểm
+              th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.tracking-wider Người Đặt
+              th.px-6.py-3.text-left.text-xs.font-medium.text-gray-500.uppercase.tracking-wider Trạng Thái
+              th.px-6.py-3.text-right.text-xs.font-medium.text-gray-500.uppercase.tracking-wider Thao Tác
+          tbody.bg-white.divide-y.divide-gray-200
+            if events && events.length > 0
+              each event, index in events
+                tr(class="hover:bg-gray-50")
+                  td.px-6.py-4.whitespace-nowrap.text-sm.font-medium.text-gray-900= index + 1
+                  td.px-6.py-4.whitespace-nowrap
+                    div.font-medium.text-gray-900= event.eventName
+                    if event.eventType === 'wedding'
+                      div.text-xs.text-gray-500= event.groomName + ' & ' + event.brideName
+                  td.px-6.py-4.whitespace-nowrap.text-sm
+                    span.font-mono.text-blue-600.bg-blue-50.px-2.py-1.rounded= event.eventCode || '---'
+                  td.px-6.py-4.whitespace-nowrap.text-sm.text-gray-500
+                    - var d = new Date(event.date)
+                    - var formattedDate = [('0'+d.getDate()).slice(-2), ('0'+(d.getMonth()+1)).slice(-2), d.getFullYear()].join("/")
+                    | #{formattedDate} - #{event.time}
+                  td.px-6.py-4.whitespace-nowrap.text-sm
+                    +packageBadge(event.packageType)
+                  td.px-6.py-4.whitespace-nowrap.text-sm.text-gray-500
+                    if event.eventType === 'wedding'
+                      | Đám cưới
+                    else
+                      | Sự kiện chung
+                  td.px-6.py-4.whitespace-nowrap.text-sm.text-gray-500.max-w-xs.truncate(title=event.location)= event.location
+                  td.px-6.py-4.whitespace-nowrap
+                    div.text-sm.text-gray-900= event.contactName
+                    div.text-xs.text-gray-500= event.phone
+                  td.px-6.py-4.whitespace-nowrap.text-sm
+                    +statusBadge(event.status)
+                  td.px-6.py-4.whitespace-nowrap.text-right.text-sm.font-medium
+                    div.relative.inline-block.text-left.dropdown-container
+                      button.btn-dropdown.text-gray-400.hover_text-gray-600(class="hover:text-gray-600 focus:outline-none")
+                        i(data-lucide="more-vertical" class="w-5 h-5")
+                      div.dropdown-menu.origin-top-right.absolute.right-0.mt-2.w-48.rounded-md.shadow-lg.bg-white.ring-1.ring-black.ring-opacity-5.hidden(class="z-10 focus:outline-none")
+                        div.py-1
+                          a.block.px-4.py-2.text-sm.text-gray-700.hover_bg-gray-100(href=`/admin/events/detail/${event.id}` class="hover:bg-gray-100 flex items-center") 
+                            i(data-lucide="eye" class="w-4 h-4 mr-2 text-gray-500") 
+                            | Xem Chi Tiết
+                          a.block.px-4.py-2.text-sm.text-gray-700.hover_bg-gray-100(href=`/admin/events/edit/${event.id}` class="hover:bg-gray-100 flex items-center") 
+                            i(data-lucide="edit" class="w-4 h-4 mr-2 text-gray-500")
+                            | Chỉnh Sửa
+                          
+                          if event.status !== 'completed'
+                            form(action=`/admin/events/complete/${event.id}?_method=PATCH` method="POST")
+                              button.w-full.text-left.block.px-4.py-2.text-sm.text-gray-700.hover_bg-gray-100(type="submit" class="hover:bg-gray-100 flex items-center")
+                                i(data-lucide="check-circle" class="w-4 h-4 mr-2 text-gray-500")
+                                | Đánh Dấu Hoàn Thành
+
+                          form(action=`/admin/events/delete/${event.id}?_method=DELETE` method="POST" class="form-delete-item")
+                            button.w-full.text-left.block.px-4.py-2.text-sm.text-red-600.hover_bg-red-50(type="button" class="hover:bg-red-50 flex items-center btn-delete-item") 
+                              i(data-lucide="trash-2" class="w-4 h-4 mr-2 text-red-500")
+                              | Hủy Sự Kiện
+            else
+              tr
+                td(colspan="10").px-6.py-10.text-center.text-gray-500 Chưa có sự kiện nào
+  
+  script.
+    // Lắng nghe sự kiện dropdown local
+    document.addEventListener("DOMContentLoaded", () => {
+      const dropdownBtns = document.querySelectorAll('.btn-dropdown');
+      dropdownBtns.forEach(btn => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          const menu = btn.nextElementSibling;
+          const isHidden = menu.classList.contains('hidden');
+          
+          // Ẩn tất cả dropdown khác trước
+          document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.add('hidden'));
+          
+          if(isHidden) {
+            menu.classList.remove('hidden');
+          }
+        });
+      });
+
+      // Click outside to close
+      document.addEventListener('click', () => {
+        document.querySelectorAll('.dropdown-menu').forEach(m => m.classList.add('hidden'));
+      });
+    });

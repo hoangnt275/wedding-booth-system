@@ -1,3 +1,47 @@
 extends ../../layout/default.pug
-block main 
-  h1 Trang tong quan
+
+block main
+  div.space-y-6
+    div
+      h2.text-3xl.font-semibold.text-gray-900 Tổng Quan
+      p.text-sm.text-gray-500.mt-1 Chào mừng bạn đến với hệ thống quản trị Photobooth
+    
+    div.grid.gap-4(class="md:grid-cols-2 lg:grid-cols-4")
+      //- Demo cards
+      div.bg-white.overflow-hidden.shadow.rounded-lg.border.border-gray-200.p-6
+        div.flex.items-center
+          div.flex-shrink-0.bg-blue-100.rounded-md.p-3
+            i(data-lucide="camera" class="h-6 w-6 text-blue-600")
+          div.ml-4.w-full
+            p.text-sm.font-medium.text-gray-500 Sự kiện tháng này
+            p.text-2xl.font-semibold.text-gray-900 12
+
+      div.bg-white.overflow-hidden.shadow.rounded-lg.border.border-gray-200.p-6
+        div.flex.items-center
+          div.flex-shrink-0.bg-green-100.rounded-md.p-3
+            i(data-lucide="users" class="h-6 w-6 text-green-600")
+          div.ml-4.w-full
+            p.text-sm.font-medium.text-gray-500 Khách hàng mới
+            p.text-2xl.font-semibold.text-gray-900 4
+
+      div.bg-white.overflow-hidden.shadow.rounded-lg.border.border-gray-200.p-6
+        div.flex.items-center
+          div.flex-shrink-0.bg-yellow-100.rounded-md.p-3
+            i(data-lucide="image" class="h-6 w-6 text-yellow-600")
+          div.ml-4.w-full
+            p.text-sm.font-medium.text-gray-500 Tổng số ảnh chụp
+            p.text-2xl.font-semibold.text-gray-900 1,240
+
+      div.bg-white.overflow-hidden.shadow.rounded-lg.border.border-gray-200.p-6
+        div.flex.items-center
+          div.flex-shrink-0.bg-purple-100.rounded-md.p-3
+            i(data-lucide="calendar-check" class="h-6 w-6 text-purple-600")
+          div.ml-4.w-full
+            p.text-sm.font-medium.text-gray-500 Lịch kín tuần này
+            p.text-2xl.font-semibold.text-gray-900 3
+
+    //- Biểu đồ minh họa (Placeholder)
+    div.bg-white.shadow.rounded-lg.border.border-gray-200.p-6.mt-6
+      h3.text-lg.font-medium.text-gray-900 Thống kê hoạt động gần đây
+      div.mt-4.h-64.bg-gray-50.rounded.border.border-dashed.border-gray-300.flex.items-center.justify-center
+        span.text-gray-500 (Khu vực chèn biểu đồ hoạt động)

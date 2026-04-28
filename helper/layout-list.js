@@ -19,11 +19,14 @@ const layoutList = [
         layoutCode: "layout-2",
         name: "layout-2",
         paperSize: "LARGE",
-        photoCount: 1,
-        cameraRatio: "1670/965",
-        rotate: true,
+        photoCount: 2,
+        cameraRatio: "1108/670",
+        rotate: false,
         // Layout này có thể chừa nhiều khoảng trống ở dưới cho logo hơn layout-1
-        coordinates: [{ id: 1, x: 65, y: 65, width: 1670, height: 965 }],
+        coordinates: [
+            { id: 1, x: 46, y: 46, width: 1108, height: 670 }, // Ảnh 1 (Trên cùng)
+            { id: 2, x: 46, y: 763, width: 1108, height: 670 },
+        ],
     },
     {
         layoutCode: "layout-3",
@@ -40,18 +43,16 @@ const layoutList = [
             { id: 4, x: 26, y: 1255, width: 548, height: 384 }, // Ảnh 4 (Dưới cùng)
         ],
     },
+    
     {
         layoutCode: "layout-4",
         name: "layout-4",
         paperSize: "LARGE",
-        photoCount: 2,
-        cameraRatio: "1108/670",
-        rotate: false,
+        photoCount: 1,
+        cameraRatio: "1670/965",
+        rotate: true,
         // Layout này có thể chừa nhiều khoảng trống ở dưới cho logo hơn layout-1
-        coordinates: [
-            { id: 1, x: 46, y: 46, width: 1108, height: 670 }, // Ảnh 1 (Trên cùng)
-            { id: 2, x: 46, y: 763, width: 1108, height: 670 },
-        ],
+        coordinates: [{ id: 1, x: 65, y: 65, width: 1670, height: 965 }],
     },
 ];
 

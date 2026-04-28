@@ -1,0 +1,131 @@
+extends ../../layout/default.pug
+
+block main
+  div.space-y-6
+    //- Header
+    div.flex.items-center.space-x-4
+      a.btn.ghost.icon(href=`/admin/events/detail/${event.id}` class="p-2 text-gray-400 hover:text-gray-500 hover:bg-gray-100 rounded-md transition")
+        i(data-lucide="arrow-left" class="w-5 h-5")
+      div
+        h2.text-3xl.font-semibold.text-gray-900 Chỉnh Sửa Sự Kiện
+        p.text-sm.text-gray-500.mt-1 Cập nhật thông tin sự kiện
+
+    form(action=`/admin/events/edit/${event.id}?_method=PATCH` method="POST")
+      div.grid.gap-6.lg_grid-cols-3(class="lg:grid-cols-3")
+        //- Main Information
+        div.lg_col-span-2.bg-white.shadow.rounded-lg.border.border-gray-200(class="lg:col-span-2")
+          div.px-6.py-5.border-b.border-gray-200
+            h3.text-lg.font-medium.leading-6.text-gray-900 Thông Tin Sự Kiện
+          
+          div.p-6.space-y-6
+            //- Event Name and Code
+            div.grid.gap-4.md_grid-cols-2(class="md:grid-cols-2")
+              div.space-y-2
+                label.block.text-sm.font-medium.text-gray-700(for="eventName")
+                  | Tên Sự Kiện 
+                  span.text-red-500 *
+                input#eventName(type="text" name="eventName" value=event.eventName required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm")
+              div.space-y-2
+                label.block.text-sm.font-medium.text-gray-700(for="eventCode")
+                  | Mã Sự Kiện 
+                  span.text-red-500 *
+                input#eventCode(type="text" name="eventCode" value=event.eventCode required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm")
+
+            //- Event Type
+            div.space-y-2
+              label.block.text-sm.font-medium.text-gray-700(for="eventType")
+                | Loại Sự Kiện 
+                span.text-red-500 *
+              select#eventType(name="eventType" required class="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md")
+                option(value="wedding" selected=(event.eventType === 'wedding')) Đám Cưới
+                option(value="general" selected=(event.eventType === 'general')) Sự Kiện Chung
+
+            //- Package Type
+            div.space-y-2
+              label.block.text-sm.font-medium.text-gray-700(for="packageType")
+                | Loại Gói Chụp 
+                span.text-red-500 *
+              select#packageType(name="packageType" required class="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm rounded-md")
+                option(value="basic" selected=(event.packageType === 'basic')) Basic
+                option(value="premium" selected=(event.packageType === 'premium')) Premium
+
+            //- Date and Time
+            div.grid.gap-4.md_grid-cols-2(class="md:grid-cols-2")
+              div.space-y-2
+                label.block.text-sm.font-medium.text-gray-700(for="date")
+                  | Ngày Tổ Chức 
+                  span.text-red-500 *
+                - var d = new Date(event.date)
+                - var fDate = d.getFullYear() + "-" + ('0' + (d.getMonth() + 1)).slice(-2) + "-" + ('0' + d.getDate()).slice(-2)
+                input#date(type="date" name="date" value=fDate required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm")
+              div.space-y-2
+                label.block.text-sm.font-medium.text-gray-700(for="time")
+                  | Giờ Bắt Đầu 
+                  span.text-red-500 *
+                input#time(type="time" name="time" value=event.time required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm")
+
+            //- Location
+            div.space-y-2
+              label.block.text-sm.font-medium.text-gray-700(for="location")
+                | Địa Điểm Tổ Chức 
+                span.text-red-500 *
+              input#location(type="text" name="location" value=event.location required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm")
+
+            //- Bride and Groom Names (only for wedding)
+            div#weddingFields(class=`grid gap-4 md:grid-cols-2 ${event.eventType === 'wedding' ? '' : 'hidden'}`)
+              div.space-y-2
+                label.block.text-sm.font-medium.text-gray-700(for="groomName") Tên Chú Rể
+                input#groomName(type="text" name="groomName" value=event.groomName class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm")
+              div.space-y-2
+                label.block.text-sm.font-medium.text-gray-700(for="brideName") Tên Cô Dâu
+                input#brideName(type="text" name="brideName" value=event.brideName class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm")
+
+            //- Note
+            div.space-y-2.pt-4.border-t.border-gray-200
+              label.block.text-sm.font-medium.text-gray-700(for="note") Ghi Chú & Yêu Cầu Đặc Biệt
+              textarea#note(name="note" rows="3" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm")= event.note
+
+        //- Contact Information
+        div.bg-white.shadow.rounded-lg.border.border-gray-200.h-fit
+          div.px-6.py-5.border-b.border-gray-200
+            h3.text-lg.font-medium.leading-6.text-gray-900 Thông Tin Liên Hệ
+          
+          div.p-6.space-y-4
+            div.space-y-2
+              label.block.text-sm.font-medium.text-gray-700(for="contactName")
+                | Tên Người Đặt 
+                span.text-red-500 *
+              input#contactName(type="text" name="contactName" value=event.contactName required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm")
+
+            div.space-y-2
+              label.block.text-sm.font-medium.text-gray-700(for="phone")
+                | Số Điện Thoại 
+                span.text-red-500 *
+              input#phone(type="tel" name="phone" value=event.phone required class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm")
+
+            div.space-y-2
+              label.block.text-sm.font-medium.text-gray-700(for="social") Instagram / Facebook
+              input#social(type="text" name="social" value=event.social class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm py-2 px-3 focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm")
+
+            div.pt-4.space-y-3
+              button(type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500")
+                i(data-lucide="save" class="w-5 h-5 mr-2")
+                | Cập Nhật
+              a(href=`/admin/events/detail/${event.id}` class="w-full flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500")
+                | Hủy
+
+  script.
+    document.addEventListener("DOMContentLoaded", () => {
+      const eventTypeSelect = document.getElementById("eventType");
+      const weddingFields = document.getElementById("weddingFields");
+      
+      eventTypeSelect.addEventListener("change", (e) => {
+        if(e.target.value === "wedding") {
+          weddingFields.classList.remove("hidden");
+        } else {
+          weddingFields.classList.add("hidden");
+          document.getElementById('groomName').value = "";
+          document.getElementById('brideName').value = "";
+        }
+      });
+    });

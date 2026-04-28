@@ -10,11 +10,11 @@ block content
     
     //- BÊN TRÁI: Khung hiển thị ảnh Preview
     //- Dùng bg-white và p-3 để tạo viền trắng giả lập giống ảnh Polaroid thật
-    div(class="relative shadow-2xl bg-white p-3 rounded-sm")
-      img(id="preview-image" src=mergedPhotoUrl alt="Preview Image" class="h-[55vh] w-auto object-contain block")
+   
+    img(id="preview-image" src=mergedPhotoUrl alt="Preview Image" class="h-[55vh] w-auto block")
       
     //- BÊN PHẢI: Các nút chọn màu
-    div(class="flex flex-row gap-8")
+    div(class="flex flex-col gap-8")
       //- Nút "Màu sáng" (Mặc định được chọn nên có sẵn viền ring và màu nền đậm)
       button(class="filter-btn px-12 py-3 rounded-[50px] bg-main text-white text-[3rem] font-pinyon transition-all duration-300 ring-4 ring-main ring-opacity-50 scale-105" data-filter="original") Màu sáng
       
